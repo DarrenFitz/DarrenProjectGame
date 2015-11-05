@@ -11,6 +11,12 @@
         canvas{border: #666 3px solid;
         }
     </style>
+        <script type="text/javascript">
+            function showScore()
+            {
+                document.write("Score: " + count);
+            }
+        </script> 
   </head>
     
     <body> 
@@ -30,7 +36,7 @@
             var ball = {
                 position: {x: canvas.width/2, y: canvas.height-30 }
                 ,radius: 10
-                ,velocity: {x:5, y: -5}
+                ,velocity: {x:3, y: -3}
             }
             
             //paddle object for variables
@@ -38,6 +44,27 @@
                 width: 100
                 ,height: 7
                 ,position: { x: (canvas.width - 100)/2}
+            }
+            
+            //paddle object for variables
+            var paddleTwo = {
+                width: 100
+                ,height: 7
+                ,position: { x: (canvas.width - 100)/2, y: 0}
+            }
+            
+            //paddle object for variables
+            var paddleThree = {
+                width: 7
+                ,height: 100
+                ,position: { x: canvas.width-7 , y:350}
+            }
+            
+            //paddle object for variables
+            var paddleFour = {
+                width: 7
+                ,height: 100
+                ,position: { x: canvas.width - canvas.width , y:350}
             }
             
              //function called to display the score
@@ -67,15 +94,56 @@
                 ctx.closePath();
             }
             
+            //function to create the paddle2
+            function drawPaddleTwo(){
+                ctx.beginPath();
+                ctx.rect(paddleTwo.position.x, paddleTwo.position.y, paddleTwo.width, paddleTwo.height);
+                ctx.fillStyle = "rgb(0,225,0)";
+                ctx.fill();
+                ctx.closePath();      
+            }
+            
+            //function to create the paddle
+            function drawPaddleThree(){
+                ctx.beginPath();
+                ctx.rect(paddleThree.position.x, paddleThree.position.y, paddleThree.width, paddleThree.height);
+                ctx.fillStyle = "rgb(0,225,0)";
+                ctx.fill();
+                ctx.closePath();
+            }
+            
+            //function to create the paddle
+            function drawPaddleFour(){
+                ctx.beginPath();
+                ctx.rect(paddleFour.position.x, paddleFour.position.y, paddleFour.width, paddleFour.height);
+                ctx.fillStyle = "rgb(0,225,0)";
+                ctx.fill();
+                ctx.closePath();
+            }
+            
             //event function to move the paddle left or right
             window.addEventListener("keydown", function(event) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //stops paddle leaving the right side of the screen/canvas
-                if ((event.keyCode == 39) && (paddle.position.x + paddle.width <= canvas.width))
-                  paddle.position.x += 15;
+                if ((event.keyCode == 39) && (paddle.position.x + paddle.width <= canvas.width)){
+                    paddle.position.x += 15;
+                    paddleTwo.position.x +=15;
+                }
                 //stops paddle leaving the left side of the screen/canvas
-                else if ((event.keyCode == 37) && (paddle.position.x >= canvas.width - canvas.width))
-                  paddle.position.x -= 15;
+                else if ((event.keyCode == 37) && (paddle.position.x >= canvas.width - canvas.width)){
+                    paddle.position.x -= 15;
+                    paddleTwo.position.x -=15
+                }
+                //stops paddle leaving the right side of the screen/canvas
+                if ((event.keyCode == 38)){
+                    paddleThree.position.y -= 15;
+                    paddleFour.position.y -=15;
+                }
+                //stops paddle leaving the left side of the screen/canvas
+                else if ((event.keyCode == 40)){
+                    paddleThree.position.y += 15;
+                    paddleFour.position.y +=15;
+                }
               });
             
             function repeat(){ //function utilising requestAnimationFrame
@@ -92,8 +160,22 @@
                     ball.velocity.x = -ball.velocity.x;
                 
                 //Change to only allow paddle to execute return ball at bottom
-                if(ball.position.y <= ball.radius )
+                if((ball.position.y <= ball.radius + paddleTwo.height)
+                   && (ball.position.x >= paddleTwo.position.x) 
+                   && (ball.position.x <= paddleTwo.position.x + paddleTwo.width)){
                     ball.velocity.y = -ball.velocity.y;
+                    
+                    //score counter counts number of times ball hits the paddle
+                    //adding one each time
+                    score = score + 1;
+                }
+                
+                //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
+                else if (ball.position.y < 0){
+                        alert("GAME OVER");
+                        document.location.reload();
+                    }
+                
                 //when ball hits paddle the velocity direction changes and ball bounce back off paddle
                 if((ball.position.y >= canvas.height - paddle.height - ball.radius)
                    && (ball.position.x >= paddle.position.x) 
@@ -115,6 +197,9 @@
                 drawBall();
                 //call drawPaddle method to dispaly paddle
                 drawPaddle();
+                drawPaddleTwo();
+                drawPaddleThree();
+                drawPaddleFour();
                 drawScore();
                 window.requestAnimationFrame(repeat);
                 
