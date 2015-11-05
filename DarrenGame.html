@@ -23,25 +23,33 @@
             var canvas = document.getElementById("darrenCanvas");
             // Set the canvas up for drawing in 2D.
             var ctx = canvas.getContext("2d");
-            var x = canvas.width/2;
-            var y = canvas.height-30;
-            var r = 10;
-            var dx = 2;
-            var dy = -2;
+            
+            //var x = canvas.width/2;
+            //var y = canvas.height-30;
+            //var r = 10;
+            //var dx = 2;
+            //var dy = -2;
+            
+            //ball object to add variables
+            var ball = {
+                position: {x: canvas.width/2, y: canvas.height-30 }
+                ,radius: 10
+                ,velocity: {x:2, y: -2}
+            }
             
             //drawBall function to create the ball
             function drawBall(){
                 ctx.beginPath();
-                ctx.arc(x,y,r,0,2*Math.PI);
+                ctx.arc(ball.position.x,ball.position.y,ball.radius,0,2*Math.PI);
                 ctx.fillStyle = "rgb(45,225,0)";
                 ctx.fill();
                 ctx.stroke(); 
                 ctx.closePath();
                 
-                x += dx;
-                y += dy;
+                ball.position.x += ball.velocity.x;
+                ball.position.y += ball.velocity.y;
                 
-            }
+            }   
             
             function repeat(){ //function utilising requestAnimationFrame
                 //clear the previous ball after new ball animation is created
