@@ -135,12 +135,12 @@
                     paddleTwo.position.x -=15
                 }
                 //stops paddle leaving the right side of the screen/canvas
-                if ((event.keyCode == 38)){
+                if ((event.keyCode == 38) && (paddleThree.position.y >= (canvas.height - canvas.height))){
                     paddleThree.position.y -= 15;
                     paddleFour.position.y -=15;
                 }
                 //stops paddle leaving the left side of the screen/canvas
-                else if ((event.keyCode == 40)){
+                else if ((event.keyCode == 40) && (paddleThree.position.y + paddleThree.height <= canvas.height)){
                     paddleThree.position.y += 15;
                     paddleFour.position.y +=15;
                 }
