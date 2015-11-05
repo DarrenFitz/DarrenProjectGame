@@ -16,6 +16,46 @@
     <body> 
     
         <canvas id="darrenCanvas" width="800" height="600"> </canvas>
+        
+        <script>
+            //Put all my javascript code here
+            // Gets a handle to the element with id darrenCanvas.
+            var canvas = document.getElementById("darrenCanvas");
+            // Set the canvas up for drawing in 2D.
+            var ctx = canvas.getContext("2d");
+            var x = canvas.width/2;
+            var y = canvas.height-30;
+            var r = 10;
+            var dx = 2;
+            var dy = -2;
+            
+            //drawBall function to create the ball
+            function drawBall(){
+                ctx.beginPath();
+                ctx.arc(x,y,r,0,2*Math.PI);
+                ctx.fillStyle = "rgb(45,225,0)";
+                ctx.fill();
+                ctx.stroke(); 
+                ctx.closePath();
+                
+                x += dx;
+                y += dy;
+                
+            }
+            
+            function repeat(){ //function utilising requestAnimationFrame
+                //clear the previous ball after new ball animation is created
+                ctx.clearRect(0,0, canvas.width, canvas.height);
+                drawBall();
+
+                window.requestAnimationFrame(repeat);
+                
+            }   
+            //utilise requestAnimationFrame to get animation to repeat and work 
+            window.requestAnimationFrame(repeat);
+            
+            
+        </script>
     
     </body>
         
