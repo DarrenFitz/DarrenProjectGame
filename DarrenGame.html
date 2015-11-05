@@ -31,6 +31,13 @@
                 ,velocity: {x:2, y: -2}
             }
             
+            //paddle object for variables
+            var paddle = {
+                width: 100
+                ,height: 7
+                ,position: { x: (canvas.width - 100)/2}
+            }
+            
             //drawBall function to create the ball
             function drawBall(){
                 ctx.beginPath();
@@ -40,10 +47,16 @@
                 ctx.stroke(); 
                 ctx.closePath();
                 
-                ball.position.x += ball.velocity.x;
-                ball.position.y += ball.velocity.y;
-                
-            }   
+            } 
+            
+            //function to create the paddle
+            function drawPaddle(){
+                ctx.beginPath();
+                ctx.rect(paddle.position.x, canvas.height - paddle.height, paddle.width, paddle.height);
+                ctx.fillStyle = "rgb(0,225,0)";
+                ctx.fill();
+                ctx.closePath();
+            }
             
             function repeat(){ //function utilising requestAnimationFrame
                 
@@ -63,6 +76,8 @@
                 
                 //method that is called to draw circle to screen
                 drawBall();
+                //call drawPaddle method to dispaly paddle
+                drawPaddle();
                 window.requestAnimationFrame(repeat);
                 
             }   
