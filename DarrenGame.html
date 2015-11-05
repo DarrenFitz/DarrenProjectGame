@@ -24,12 +24,6 @@
             // Set the canvas up for drawing in 2D.
             var ctx = canvas.getContext("2d");
             
-            //var x = canvas.width/2;
-            //var y = canvas.height-30;
-            //var r = 10;
-            //var dx = 2;
-            //var dy = -2;
-            
             //ball object to add variables
             var ball = {
                 position: {x: canvas.width/2, y: canvas.height-30 }
@@ -52,10 +46,23 @@
             }   
             
             function repeat(){ //function utilising requestAnimationFrame
+                
                 //clear the previous ball after new ball animation is created
                 ctx.clearRect(0,0, canvas.width, canvas.height);
+                
+                //updates the position of the ball
+                ball.position.x += ball.velocity.x;
+                ball.position.y += ball.velocity.y;
+                
+                //keep ball from leaving the canvas
+                if(ball.position.x <= ball.radius || ball.position.x >= canvas.width - ball.radius)
+                    ball.velocity.x = -ball.velocity.x;
+                
+                if(ball.position.y <= ball.radius || ball.position.y >= canvas.height - ball.radius)
+                    ball.velocity.y = -ball.velocity.y;
+                
+                //method that is called to draw circle to screen
                 drawBall();
-
                 window.requestAnimationFrame(repeat);
                 
             }   
