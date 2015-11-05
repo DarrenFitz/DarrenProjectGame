@@ -78,7 +78,7 @@
             function drawBall(){
                 ctx.beginPath();
                 ctx.arc(ball.position.x,ball.position.y,ball.radius,0,2*Math.PI);
-                ctx.fillStyle = "rgb(45,225,0)";
+                ctx.fillStyle = "rgb(225,0,0)";
                 ctx.fill();
                 ctx.stroke(); 
                 ctx.closePath();
@@ -126,23 +126,23 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 //stops paddle leaving the right side of the screen/canvas
                 if ((event.keyCode == 39) && (paddle.position.x + paddle.width <= canvas.width)){
-                    paddle.position.x += 15;
-                    paddleTwo.position.x +=15;
+                    paddle.position.x += 25;
+                    paddleTwo.position.x +=25;
                 }
                 //stops paddle leaving the left side of the screen/canvas
                 else if ((event.keyCode == 37) && (paddle.position.x >= canvas.width - canvas.width)){
-                    paddle.position.x -= 15;
-                    paddleTwo.position.x -=15
+                    paddle.position.x -= 25;
+                    paddleTwo.position.x -=15;
                 }
                 //stops paddle leaving the right side of the screen/canvas
                 if ((event.keyCode == 38) && (paddleThree.position.y >= (canvas.height - canvas.height))){
-                    paddleThree.position.y -= 15;
-                    paddleFour.position.y -=15;
+                    paddleThree.position.y -= 25;
+                    paddleFour.position.y -=25;
                 }
                 //stops paddle leaving the left side of the screen/canvas
                 else if ((event.keyCode == 40) && (paddleThree.position.y + paddleThree.height <= canvas.height)){
-                    paddleThree.position.y += 15;
-                    paddleFour.position.y +=15;
+                    paddleThree.position.y += 25;
+                    paddleFour.position.y +=25;
                 }
               });
             
@@ -155,11 +155,44 @@
                 ball.position.x += ball.velocity.x;
                 ball.position.y += ball.velocity.y;
                 
-                //keep ball from leaving the canvas
-                if(ball.position.x <= ball.radius || ball.position.x >= canvas.width - ball.radius)
-                    ball.velocity.x = -ball.velocity.x;
+                //********************************* LEFT PADDLE ************************************//
                 
-                //Change to only allow paddle to execute return ball at bottom
+                //keep ball from leaving the canvas
+                if((ball.position.x <= ball.radius + paddleFour.width)
+                  && (ball.position.y >= paddleFour.position.y)
+                  && (ball.position.y <= paddleFour.position.y + paddleFour.height)){
+                    ball.velocity.x = -ball.velocity.x;
+                    
+                    //score counter counts number of times ball hits the paddle
+                    //adding one each time
+                    score = score + 1;
+                    }
+                //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
+                else if (ball.position.x < canvas.height - canvas.height){
+                        alert("GAME OVER");
+                        document.location.reload();
+                    }
+                
+                //******************************** RIGHT PADDLE ************************************//
+                
+                //keep ball from leaving the canvas
+                if((ball.position.x >= canvas.width - ball.radius - paddleThree.width)
+                   && (ball.position.y >= paddleThree.position.y)
+                   && (ball.position.y <= paddleThree.position.y + paddleThree.height)){
+                    ball.velocity.x = -ball.velocity.x;
+                    //score counter counts number of times ball hits the paddle
+                    //adding one each time
+                    score = score + 1;
+                }
+                
+                else if (ball.position.x > canvas.width){
+                        alert("GAME OVER");
+                        document.location.reload();
+                    }
+                
+                //******************************** TOP PADDLE ************************************//
+                
+                //When ball collides with padel it is return in the opposite  direction
                 if((ball.position.y <= ball.radius + paddleTwo.height)
                    && (ball.position.x >= paddleTwo.position.x) 
                    && (ball.position.x <= paddleTwo.position.x + paddleTwo.width)){
@@ -175,6 +208,8 @@
                         alert("GAME OVER");
                         document.location.reload();
                     }
+                
+                //******************************** BOTTOM PADDLE ************************************//
                 
                 //when ball hits paddle the velocity direction changes and ball bounce back off paddle
                 if((ball.position.y >= canvas.height - paddle.height - ball.radius)
