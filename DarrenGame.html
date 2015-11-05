@@ -58,6 +58,15 @@
                 ctx.closePath();
             }
             
+            //event function to move the paddle left or right
+            window.addEventListener("keydown", function(event) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (event.keyCode == 39)
+                  paddle.position.x += 15;
+                else if (event.keyCode == 37)
+                  paddle.position.x -= 15;
+              });
+            
             function repeat(){ //function utilising requestAnimationFrame
                 
                 //clear the previous ball after new ball animation is created
