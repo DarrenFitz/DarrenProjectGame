@@ -23,6 +23,8 @@
             var canvas = document.getElementById("darrenCanvas");
             // Set the canvas up for drawing in 2D.
             var ctx = canvas.getContext("2d");
+            //variables
+            var score = 0;
             
             //ball object to add variables
             var ball = {
@@ -36,6 +38,13 @@
                 width: 100
                 ,height: 7
                 ,position: { x: (canvas.width - 100)/2}
+            }
+            
+             //function called to display the score
+            function drawScore() {
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "rgb(0,225,0)";
+                ctx.fillText("Score: " + score, 8, 20);
             }
             
             //drawBall function to create the ball
@@ -61,9 +70,11 @@
             //event function to move the paddle left or right
             window.addEventListener("keydown", function(event) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                if (event.keyCode == 39)
+                //stops paddle leaving the right side of the screen/canvas
+                if ((event.keyCode == 39) && (paddle.position.x + paddle.width <= canvas.width))
                   paddle.position.x += 15;
-                else if (event.keyCode == 37)
+                //stops paddle leaving the left side of the screen/canvas
+                else if ((event.keyCode == 37) && (paddle.position.x >= canvas.width - canvas.width))
                   paddle.position.x -= 15;
               });
             
@@ -84,10 +95,15 @@
                 if(ball.position.y <= ball.radius )
                     ball.velocity.y = -ball.velocity.y;
                 //when ball hits paddle the velocity direction changes and ball bounce back off paddle
-                if((ball.position.y >= canvas.height - paddle.height - ball.radius) 
+                if((ball.position.y >= canvas.height - paddle.height - ball.radius)
                    && (ball.position.x >= paddle.position.x) 
-                   && (ball.position.x <= paddle.position.x + paddle.width))
+                   && (ball.position.x <= paddle.position.x + paddle.width)){
                     ball.velocity.y = -ball.velocity.y;
+                    
+                    //score counter counts number of times ball hits the paddle
+                    //adding one each time
+                    score = score + 1;
+                }
                     
                 //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
                 else if (ball.position.y > canvas.height){
@@ -99,6 +115,7 @@
                 drawBall();
                 //call drawPaddle method to dispaly paddle
                 drawPaddle();
+                drawScore();
                 window.requestAnimationFrame(repeat);
                 
             }   
