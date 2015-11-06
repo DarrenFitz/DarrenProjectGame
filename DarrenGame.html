@@ -29,10 +29,10 @@
             var canvas = document.getElementById("darrenCanvas");
             // Set the canvas up for drawing in 2D.
             var ctx = canvas.getContext("2d");
-            //variables
+            //Variables
             var score = 0;
-            var d = 295;
-            var x;
+            //Used to keep score in the center of screen
+            var d = 310;
                      
             //=====================================   All objects Usesd  =========================================
             
@@ -44,27 +44,31 @@
             }
             
             //paddle object for variables
+            //Bottom paddle
             var paddle = {
                 width: 100
                 ,height: 7
                 ,position: { x: (canvas.width - 100)/2}
             }
             
-            //paddle object for variables
+            //paddleTwo object for variables
+            //Top paddle
             var paddleTwo = {
                 width: 100
                 ,height: 7
                 ,position: { x: (canvas.width - 100)/2, y: 0}
             }
             
-            //paddle object for variables
+            //paddleThree object for variables
+            //Right paddle
             var paddleThree = {
                 width: 7
                 ,height: 100
                 ,position: { x: canvas.width-7 , y: 250}
             }
             
-            //paddle object for variables
+            //paddleFour object for variables
+            //Left paddle
             var paddleFour = {
                 width: 7
                 ,height: 100
@@ -81,7 +85,7 @@
             }
             
             //Tells the user the game is over
-            //Gives them the option of playong again
+            //Gives them the option of playing again
             function drawEnd() {
                 ctx.font = "72px Arial";
                 ctx.fillStyle = "rgb(225,0,0)";
@@ -191,7 +195,7 @@
                 
                 // Keep the score center in the screen when playing 
                 if (score >= 10){ 
-                    d = 225;
+                    d = 235;
                 }
                 if(score >= 100){
                     d = 145;
@@ -200,7 +204,7 @@
 
                 //********************************* LEFT PADDLE ************************************//
                 
-                //keep ball from leaving the canvas
+                //keep ball from leaving the canvas when paddle is hit
                 if((ball.position.x == ball.radius + paddleFour.width)
                   && (ball.position.y >= paddleFour.position.y)
                   && (ball.position.y <= paddleFour.position.y + paddleFour.height)){
@@ -220,7 +224,7 @@
                 
                 //******************************** RIGHT PADDLE ************************************//
                 
-                //keep ball from leaving the canvas
+                //Ball Collision with paddle keeps it in canvas
                 if((ball.position.x == canvas.width - ball.radius - paddleThree.width)
                    && (ball.position.y >= paddleThree.position.y)
                    && (ball.position.y <= paddleThree.position.y + paddleThree.height)){
@@ -238,7 +242,7 @@
                 
                 //******************************** TOP PADDLE ************************************//
                 
-                //When ball collides with padel it is return in the opposite  direction
+                //When ball collides with paddle it is return in the opposite  direction
                 if((ball.position.y == ball.radius + paddleTwo.height)
                    && (ball.position.x >= paddleTwo.position.x) 
                    && (ball.position.x <= paddleTwo.position.x + paddleTwo.width)){
@@ -258,7 +262,7 @@
                 
                 //******************************** BOTTOM PADDLE ************************************//
                 
-                //when ball hits paddle the velocity direction changes and ball bounce back off paddle
+                //When ball hits paddle the velocity direction changes and ball bounce back off paddle
                 if((ball.position.y == canvas.height - paddle.height - ball.radius)
                    && (ball.position.x >= paddle.position.x) 
                    && (ball.position.x <= paddle.position.x + paddle.width)){
@@ -271,7 +275,7 @@
                     
                 //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
                 if (ball.position.y > canvas.height){
-                        ball.velocity.x = 0;
+                        ball.velocity.x = 0; 
                         ball.velocity.y = 0;
                         drawEnd();
                     }
