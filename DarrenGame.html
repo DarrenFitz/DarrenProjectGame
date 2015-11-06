@@ -16,6 +16,7 @@
             {
                 document.write("Score: " + count);
             }
+            
         </script> 
   </head>
     
@@ -57,14 +58,14 @@
             var paddleThree = {
                 width: 7
                 ,height: 100
-                ,position: { x: canvas.width-7 , y:350}
+                ,position: { x: canvas.width-7 , y: 250}
             }
             
             //paddle object for variables
             var paddleFour = {
                 width: 7
                 ,height: 100
-                ,position: { x: canvas.width - canvas.width , y:350}
+                ,position: { x: canvas.width - canvas.width , y: 250}
             }
             
              //function called to display the score
@@ -73,6 +74,26 @@
                 ctx.fillStyle = "rgb(0,225,0)";
                 ctx.fillText("Score: " + score, 8, 20);
             }
+            
+            function drawEnd() {
+                ctx.font = "72px Arial";
+                ctx.fillStyle = "rgb(225,0,0)";
+                ctx.fillText("GAME OVER!!", canvas.width /5, canvas.height/2);
+                
+                ctx.font = "36px Arial";
+                ctx.fillStyle = "rgb(225,100,0)";
+                ctx.fillText("Your Score is " + score + "!", canvas.width /3, canvas.height/1.65);
+                
+                ctx.font = "18px Arial";
+                ctx.fillStyle = "rgb(225,140,0)";
+                ctx.fillText(" Press Space Bar to Replay!", canvas.width /2.9, canvas.height/1.5);
+                
+                window.requestAnimationFrame(drawEnd);
+            }
+            
+            //window.addEventListener("keydown"), function(event){
+                //ctx.canvas(0, 0, canvas.width, canvas.height);
+            //}
             
             //drawBall function to create the ball
             function drawBall(){
@@ -144,6 +165,10 @@
                     paddleThree.position.y += 25;
                     paddleFour.position.y +=25;
                 }
+                if (event.keyCode == 32){
+                    document.location.reload();  
+                }
+                
               });
             
             function repeat(){ //function utilising requestAnimationFrame
@@ -169,8 +194,10 @@
                     }
                 //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
                 else if (ball.position.x < canvas.height - canvas.height){
-                        alert("GAME OVER");
-                        document.location.reload();
+                        ball.velocity.x = 0;
+                        ball.velocity.y = 0;
+                        drawEnd();
+                        
                     }
                 
                 //******************************** RIGHT PADDLE ************************************//
@@ -186,8 +213,9 @@
                 }
                 
                 else if (ball.position.x > canvas.width){
-                        alert("GAME OVER");
-                        document.location.reload();
+                        ball.velocity.x = 0;
+                        ball.velocity.y = 0;
+                        drawEnd();
                     }
                 
                 //******************************** TOP PADDLE ************************************//
@@ -205,8 +233,9 @@
                 
                 //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
                 else if (ball.position.y < 0){
-                        alert("GAME OVER");
-                        document.location.reload();
+                        ball.velocity.x = 0;
+                        ball.velocity.y = 0;
+                        drawEnd();
                     }
                 
                 //******************************** BOTTOM PADDLE ************************************//
@@ -224,8 +253,9 @@
                     
                 //if ball leaves canvas at bottom because it didnt hit paddle display "GAME OVER"
                 else if (ball.position.y > canvas.height){
-                        alert("GAME OVER");
-                        document.location.reload();
+                        ball.velocity.x = 0;
+                        ball.velocity.y = 0;
+                        drawEnd();
                     }
                 
                 //method that is called to draw circle to screen
